@@ -2,19 +2,21 @@ package de.kantico.niveau
 
 import java.io.File
 import java.io.FileInputStream
-import java.io.IOException
+import java.io.Reader
 import java.io.InputStreamReader
-import java.io.StringWriter
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 /**
  * @version $Id$
  */
 class DirListing(file: File, display: Display) extends Runnable {
   val templateFile = "dirlisting.xhtml"
-  val reader = new InputStreamReader(new FileInputStream(file))
   val home = System.getProperty("user.home")
+  val pat = """.*\\[(.*)\\].*""".r.pattern
+  
+  def content(dir: String): Content = new Content(templateFile, Map(
+    "dir"   -> dir,
+    "files" -> new File(dir.replace("~", home)).listFiles
+  ))
 
   def removeAnsiEscapes(s: String) =
     s.replaceAll("\\[1;3.m", "").
@@ -23,31 +25,27 @@ class DirListing(file: File, display: Display) extends Runnable {
     replace("[K", "").
     replace("", "")
   
-  def content(dir: String): Content = new Content(templateFile, Map(
-    "dir"   -> dir,
-    "files" -> new File(dir.replace("~", home)).listFiles
-  ))
-
-  def run() {
-    val pat = Pattern.compile(".*\\[(.*)\\].*")
-    var lastLine = new StringBuffer
-    var i = 0
-    while(i != -1) {
-      i = reader.read
-      if (i == 10) {
-        lastLine = new StringBuffer
-      } else {
-        lastLine.append(Character.toChars(i))
-      }
-      if (i == 36) {
-        val line = removeAnsiEscapes(lastLine.toString)
-        val matcher = pat.matcher(line)
+  def readByte(r: Reader, line: StringBuffer) {
+    val i = r.read
+    i match {
+      case -1 => r.close
+      case 10 => readByte(r, new StringBuffer)
+      case 36 =>
+        line.append(Character.toChars(i))
+        val l = removeAnsiEscapes(line.toString)
+        val matcher = pat.matcher(l)
         if (matcher.matches) {
           this.display.setContent(content(matcher.group(1)))
         }
-      }
+        readByte(r, line)
+      case _ =>
+        line.append(Character.toChars(i))
+        readByte(r, line)
     }
-    reader.close
+  }
+  
+  def run() {
+    readByte(new InputStreamReader(new FileInputStream(file)), new StringBuffer)
   }
 
 }

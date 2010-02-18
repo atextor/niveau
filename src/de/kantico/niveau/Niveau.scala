@@ -29,12 +29,6 @@ object Niveau {
     getContentPane.add(pane, "Center")
     setSize(w, h)
     
-    def setDocument(content: String, url: String) {
-      panel.setDocumentFromString(content, new File(url).toURI.toURL.toString, nshandler)
-      pack
-      setSize(w, h)
-    }
-    
     def setContent(c: Content) {
       panel.setDocumentFromString(c.toString, c.templateUrl, nshandler)
       pack
@@ -46,7 +40,8 @@ object Niveau {
     val n = new Frame("Niveau")
     n.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
     n.setVisible(true)
-    val d = new DirListing(new File("/tmp/x"), n);
-    d.run;
+    val d = new DirListing(new File("/tmp/x"), n)
+    d.run
+    System.exit(0)
   }
 }
