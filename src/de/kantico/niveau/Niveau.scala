@@ -12,6 +12,9 @@ import javax.swing.ScrollPaneConstants
 import org.xhtmlrenderer.simple.XHTMLPanel
 import org.xhtmlrenderer.simple.extend.XhtmlNamespaceHandler
 
+/**
+ * @version $Id$
+ */
 object Niveau {
   class Frame(text: String) extends JFrame with Display {
     val panel = new XHTMLPanel
@@ -28,6 +31,12 @@ object Niveau {
     
     def setDocument(content: String, url: String) {
       panel.setDocumentFromString(content, new File(url).toURI.toURL.toString, nshandler)
+      pack
+      setSize(w, h)
+    }
+    
+    def setContent(c: Content) {
+      panel.setDocumentFromString(c.toString, c.templateUrl, nshandler)
       pack
       setSize(w, h)
     }

@@ -8,13 +8,13 @@ import java.io.StringWriter
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-import org.apache.velocity.Template
-import org.apache.velocity.VelocityContext
-import org.apache.velocity.app.VelocityEngine
-
+/**
+ * @version $Id$
+ */
 class DirListing(file: File, display: Display) extends Runnable {
-  val templateFile = "templates/dirlisting.xhtml"
+  val templateFile = "dirlisting.xhtml"
   val reader = new InputStreamReader(new FileInputStream(file))
+  val home = System.getProperty("user.home")
 
   def removeAnsiEscapes(s: String) =
     s.replaceAll("\\[1;3.m", "").
@@ -22,21 +22,11 @@ class DirListing(file: File, display: Display) extends Runnable {
     replace("]0;", "").
     replace("[K", "").
     replace("", "")
-
-  def buildContent(dir: String): String = {
-    val engine = new VelocityEngine
-    val context = new VelocityContext
-    val writer = new StringWriter
-    context.put("dir", dir)
-    
-    val path = dir.replace("~", System.getProperty("user.home"))
-    val files = new File(path).listFiles;
-    context.put("files", files);
-    
-    val t = engine.getTemplate(templateFile)
-    t.merge(context, writer)
-    writer.toString
-  }
+  
+  def content(dir: String): Content = new Content(templateFile, Map(
+    "dir"   -> dir,
+    "files" -> new File(dir.replace("~", home)).listFiles
+  ))
 
   def run() {
     val pat = Pattern.compile(".*\\[(.*)\\].*")
@@ -53,7 +43,7 @@ class DirListing(file: File, display: Display) extends Runnable {
         val line = removeAnsiEscapes(lastLine.toString)
         val matcher = pat.matcher(line)
         if (matcher.matches) {
-          this.display.setDocument(buildContent(matcher.group(1)), templateFile)
+          this.display.setContent(content(matcher.group(1)))
         }
       }
     }
