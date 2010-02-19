@@ -12,7 +12,7 @@ import java.util.Vector
  * @version $Id$
  */
 class DirListingTemplate(input: InputStream, output: Display, arguments: Map[String, String]) extends
-  	Template(input, output, arguments) with ErrorMessage {
+  	Template(input, output, arguments) {
   	  
   val templateFile = Config.getString("dirlisting.template")
   val home = System.getProperty("user.home")

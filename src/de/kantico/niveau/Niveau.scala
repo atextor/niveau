@@ -47,8 +47,15 @@ object Niveau {
     // Should get a @scala.annotation.tailrec on switch to 2.8
     final def handOverTo(t: Template) {
       val next = t.run
-      if (next.isDefined) handOverTo(next.get)
-      // If next is None just do nothing. The swing thread will remain to display the last template
+      if (next.isDefined) {
+        handOverTo(next.get)
+      } else {
+        t.input.close
+	    if (!t.stayVisible && Config.getBool("base.autoclose")) {
+	      System.exit(0)
+        }
+	    // Just do nothing. The swing thread will remain to display the last template
+      }
     }
   }
   

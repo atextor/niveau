@@ -16,6 +16,7 @@ object Config {
     "base.autoresize"  -> "false",
     "base.width"       -> "800",
     "base.height"      -> "600",
+    "base.autoclose"   -> "true",
     "dirlisting.pattern" -> """.*\[(.*)\].*"""
   )
   

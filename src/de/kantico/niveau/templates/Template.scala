@@ -9,7 +9,7 @@ import java.io.InputStream
  * 
  * @version $Id$
  */
-abstract class Template(input: InputStream, output: Display, arguments: Map[String, String]) {
+abstract class Template(val input: InputStream, output: Display, arguments: Map[String, String]) {
 	/**
      * Alternative constructor without arguments
      */
@@ -21,4 +21,10 @@ abstract class Template(input: InputStream, output: Display, arguments: Map[Stri
      * stream was closed.
      */
 	def run: Option[Template]
+    
+    /**
+     * Determines whether this template should remain visible when run returns None,
+     * even when autoclose is on. This is helpful for error messages and debugging.
+     */
+    val stayVisible = false
 }

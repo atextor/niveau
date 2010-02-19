@@ -7,6 +7,7 @@ base {
 	windowtitle = "Niveau"
 	errortemplate = "error.xhtml"
 	autoresize off
+	autoclose on
 }
 
 dirlisting {
