@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="lib/velocity-1.6.3-dep.jar"/>
 	<classpathentry kind="lib" path="lib/velocity-1.6.3.jar"/>
 	<classpathentry kind="lib" path="lib/xml-apis-xerces-2.9.1.jar"/>
+	<classpathentry kind="lib" path="lib/configgy-1.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -11,9 +11,9 @@ import java.util.Vector
  * @version $Id$
  */
 class DirListing(file: File, display: Display) extends Runnable with ErrorMessage {
-  val templateFile = "dirlisting.xhtml"
+  val templateFile = Config.getString("dirlisting.template")
   val home = System.getProperty("user.home")
-  val pat = """.*\[(.*)\].*""".r
+  val pat = Config.getString("dirlisting.pattern").r
   
   def content(dir: String): Content = new Content(templateFile, Map(
     "dir"   -> dir,

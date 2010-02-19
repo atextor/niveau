@@ -1,0 +1,17 @@
+# $Id$
+
+base {
+	inputpipe = "/tmp/niveau-pipe"
+	background = "000000"
+	iconpath = "icons"
+	windowtitle = "Niveau"
+	errortemplate = "error.xhtml"
+	autoresize off
+}
+
+dirlisting {
+  pattern = ".*\[(.*)\].*"
+  template = "dirlisting.xhtml"  
+  
+}
+
