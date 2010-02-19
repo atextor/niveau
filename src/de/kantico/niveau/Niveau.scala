@@ -1,8 +1,10 @@
 package de.kantico.niveau
 
-import java.io.File
+import de.kantico.niveau.templates.DirListingTemplate
+import de.kantico.niveau.templates.Template
 
-import java.net.MalformedURLException
+import java.io.File
+import java.io.FileInputStream
 
 import java.awt.Color
 import java.awt.Dimension
@@ -40,6 +42,14 @@ object Niveau {
       panel.setDocumentFromString(c.toString, c.templateUrl, nshandler)
       if (Config.getBool("base.autoresize")) pack
     }
+    
+    // Must be private or final for tail call optimization to work
+    // Should get a @scala.annotation.tailrec on switch to 2.8
+    final def handOverTo(t: Template) {
+      val next = t.run
+      if (next.isDefined) handOverTo(next.get)
+      // If next is None just do nothing. The swing thread will remain to display the last template
+    }
   }
   
   def main(args: Array[String]) {
@@ -49,8 +59,7 @@ object Niveau {
     n.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
     n.pack
     n.setVisible(true)
-    val d = new DirListing(new File(Config.getString("base.inputpipe")), n)
-    d.run
-    System.exit(0)
+    val input = new FileInputStream(new File(Config.getString("base.inputpipe")))
+    n.handOverTo(new DirListingTemplate(input, n, Map()))
   }
 }
