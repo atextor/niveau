@@ -10,7 +10,7 @@ import java.util.Vector
 /**
  * @version $Id$
  */
-class DirListing(file: File, display: Display) extends Runnable {
+class DirListing(file: File, display: Display) extends Runnable with ErrorMessage {
   val templateFile = "dirlisting.xhtml"
   val home = System.getProperty("user.home")
   val pat = """.*\[(.*)\].*""".r
@@ -41,7 +41,11 @@ class DirListing(file: File, display: Display) extends Runnable {
       case 36 =>
         line.append(Character.toChars(i))
         val l = removeAnsiEscapes(line.toString)
-        pat.findFirstMatchIn(l).map(x => this.display.setContent(content(x.group(1))))
+        val c = pat.findFirstMatchIn(l).map(x => content(x.group(1))).getOrElse(
+          errorMessage("No path found your prompt: " + l + "<br/>" +
+                        "Should be extracted using regexp: " + pat)
+        )
+        this.display.setContent(c)
         readByte(r, line)
       case _ =>
         line.append(Character.toChars(i))
