@@ -8,6 +8,7 @@
 			background: #000000;
 			color: #ffffff;
 			font-family: Bitstream Vera Sans Mono;
+			font-size: 11pt;
 		}
 		
 		img { border-width: 0px; }
@@ -20,9 +21,8 @@
 		<table>
 		#foreach($file in $files)
 			<tr>
-				<td>
-					$file.getCanonicalPath()
-				</td>
+			  <td><img src="icons/32x32/$file.icon()" /></td>
+				<td>$file.fileName()</td>
 			</tr>
 		#end
 	</table>

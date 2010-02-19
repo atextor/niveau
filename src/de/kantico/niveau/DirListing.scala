@@ -5,17 +5,23 @@ import java.io.FileInputStream
 import java.io.Reader
 import java.io.InputStreamReader
 
+import java.util.Vector
+
 /**
  * @version $Id$
  */
 class DirListing(file: File, display: Display) extends Runnable {
   val templateFile = "dirlisting.xhtml"
   val home = System.getProperty("user.home")
-  val pat = """.*\\[(.*)\\].*""".r.pattern
+  val pat = """.*\[(.*)\].*""".r
   
   def content(dir: String): Content = new Content(templateFile, Map(
     "dir"   -> dir,
-    "files" -> new File(dir.replace("~", home)).listFiles
+    "files" -> {
+      val v = new Vector[RichFile]
+      new File(dir.replace("~", home)).listFiles.map(new RichFile(_)).foreach(v.add(_))
+      v 
+    }
   ))
 
   def removeAnsiEscapes(s: String) =
@@ -33,10 +39,7 @@ class DirListing(file: File, display: Display) extends Runnable {
       case 36 =>
         line.append(Character.toChars(i))
         val l = removeAnsiEscapes(line.toString)
-        val matcher = pat.matcher(l)
-        if (matcher.matches) {
-          this.display.setContent(content(matcher.group(1)))
-        }
+        pat.findFirstMatchIn(l).map(x => this.display.setContent(content(x.group(1))))
         readByte(r, line)
       case _ =>
         line.append(Character.toChars(i))
