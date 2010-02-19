@@ -12,8 +12,8 @@ import java.util.Vector
  * @version $Id$
  */
 class DirListingTemplate(input: InputStream, output: Display, arguments: Map[String, String]) extends
-  	Template(input, output, arguments) {
-  	  
+      Template(input, output, arguments) {
+        
   val templateFile = Config.getString("dirlisting.template")
   val home = System.getProperty("user.home")
   val pat = Config.getString("dirlisting.pattern").r
@@ -50,7 +50,7 @@ class DirListingTemplate(input: InputStream, output: Display, arguments: Map[Str
                                             "Should be extracted using regexp: " + pat))
         } else {
           this.output.setContent(content(c.get.group(1)))
-	      readByte(r, line)
+          readByte(r, line)
         }
       case _ =>
         line.append(Character.toChars(i))

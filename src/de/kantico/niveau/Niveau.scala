@@ -51,10 +51,10 @@ object Niveau {
         handOverTo(next.get)
       } else {
         t.input.close
-	    if (!t.stayVisible && Config.getBool("base.autoclose")) {
-	      System.exit(0)
+        if (!t.stayVisible && Config.getBool("base.autoclose")) {
+          System.exit(0)
         }
-	    // Just do nothing. The swing thread will remain to display the last template
+        // Just do nothing. The swing thread will remain to display the last template
       }
     }
   }

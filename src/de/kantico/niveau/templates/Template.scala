@@ -10,17 +10,17 @@ import java.io.InputStream
  * @version $Id$
  */
 abstract class Template(val input: InputStream, output: Display, arguments: Map[String, String]) {
-	/**
+    /**
      * Alternative constructor without arguments
      */
-	def this(input: InputStream, output: Display) = this(input, output, Map())
+    def this(input: InputStream, output: Display) = this(input, output, Map())
  
     /**
      * Entry point of this template.
      * @return The Some(template) the control should be handed over to, or None if the input
      * stream was closed.
      */
-	def run: Option[Template]
+    def run: Option[Template]
     
     /**
      * Determines whether this template should remain visible when run returns None,
