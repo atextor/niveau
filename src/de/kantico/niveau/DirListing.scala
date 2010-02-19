@@ -31,7 +31,9 @@ class DirListing(file: File, display: Display) extends Runnable {
     replace("[K", "").
     replace("", "")
   
-  def readByte(r: Reader, line: StringBuffer) {
+  // Must be private or final for tail call optimization to work
+  // Should get a @scala.annotation.tailrec on switch to 2.8
+  final def readByte(r: Reader, line: StringBuffer) {
     val i = r.read
     i match {
       case -1 => r.close
