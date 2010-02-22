@@ -1,5 +1,7 @@
 package de.kantico.niveau
 
+import de.kantico.niveau.thumbnails.Thumbnails
+
 import java.io.File
 
 /**
@@ -13,6 +15,7 @@ class RichFile(osFile: File) {
   def fileName = osFile.getName
   def fileType = fileName.substring(fileName.lastIndexOf(".") + 1)
   def icon: String = if (osFile.isDirectory) RichFile.directoryIcon else RichFile.fileIcon(fileType)
+  def thumbnail = Thumbnails.thumbnailPath(osFile)
 }
 
 object RichFile {
