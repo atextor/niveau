@@ -15,7 +15,7 @@ class RichFile(osFile: File) {
   def fileName = osFile.getName
   def fileType = fileName.substring(fileName.lastIndexOf(".") + 1)
   def icon: String = if (osFile.isDirectory) RichFile.directoryIcon else RichFile.fileIcon(fileType)
-  def thumbnail = Thumbnails.thumbnailPath(osFile)
+  def thumbnail = Thumbnails.thumbnail(osFile, fileType).map(_.getCanonicalPath).getOrElse("")
 }
 
 object RichFile {
