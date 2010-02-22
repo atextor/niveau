@@ -1,1 +1,1 @@
-scalac -classpath lib/configgy-1.5.jar:lib/core-renderer.jar:lib/iText-2.0.8.jar:lib/velocity-1.6.3.jar:lib/velocity-1.6.3-dep.jar:lib/xml-apis-xerces-2.9.1.jar:src src/de/kantico/niveau/*.scala src/de/kantico/niveau/templates/*.scala
+scalac -classpath lib/configgy-1.5.jar:lib/core-renderer.jar:lib/iText-2.0.8.jar:lib/velocity-1.6.3.jar:lib/velocity-1.6.3-dep.jar:lib/xml-apis-xerces-2.9.1.jar:src src/de/kantico/**/*.scala src/de/kantico/**/**/*.scala
