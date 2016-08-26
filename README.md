@@ -3,7 +3,7 @@ niveau
 
 An experimental graphical add-on view for the command line to display things your xterm can’t.
 
-See also the [accompanying blog post](http://atextor.blogspot.de/2012/04/quest-for-next-generation-power-user.html) for motivation.
+See also the [accompanying blog post](http://atextor.de/2012/04/20/the-quest-for-the-next-generation-power-user-interface.html) for motivation.
 It turned out to not be as useful for me as I had originally anticipated.
 
 niveau reads a byte stream (e.g., the content of your terminal
